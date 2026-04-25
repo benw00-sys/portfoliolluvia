@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LluviaLora — Creative Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --rose: #d4687a;
+      --rose-soft: #f2c4cc;
+      --rose-pale: #fdf0f2;
+      --sage: #6b8f71;
+      --sage-soft: #b5cdb8;
+      --sage-pale: #eef4ef;
+      --earth: #9c7248;
+      --earth-soft: #d4b896;
+      --earth-pale: #faf4ec;
+      --ink: #1e1410;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #fff; color: var(--ink); overflow-x: hidden; }
+  </style>
+  <style>
+    /* SIDEBAR NAV */
+    .sidebar {
+      position: fixed; left: 0; top: 0; height: 100vh; width: 260px;
+      background: var(--ink);
+      display: flex; flex-direction: column;
+      padding: 3rem 2rem;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; color: white;
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-sub {
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rose-soft);
+      margin-bottom: 3rem;
+    }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+    .sidebar-nav a {
+      text-decoration: none; color: rgba(255,255,255,0.5);
+      font-size: 0.85rem; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.6rem 0;
+      border-left: 2px solid transparent;
+      padding-left: 1rem;
+      transition: all 0.3s;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      color: white; border-left-color: var(--rose);
+    }
+    .sidebar-contact {
+      font-size: 0.75rem; color: rgba(255,255,255,0.4);
+      line-height: 1.8;
+    }
+    .sidebar-contact a { color: var(--rose-soft); text-decoration: none; }
+
+    /* MAIN */
+    .main { margin-left: 260px; }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .hero-left {
+      background: var(--rose-pale);
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 5rem 4rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 1.5rem;
+    }
+    .hero-left h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 4vw, 4.5rem);
+      line-height: 1.1; color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .hero-left p {
+      font-size: 1rem; line-height: 1.8;
+      color: var(--earth); max-width: 380px;
+      margin-bottom: 2.5rem;
+    }
+    .pill-group { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.5rem; }
+    .pill {
+      padding: 0.35rem 1rem; border-radius: 999px;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .pill-rose { background: var(--rose-soft); color: var(--rose); }
+    .pill-sage { background: var(--sage-soft); color: var(--sage); }
+    .pill-earth { background: var(--earth-soft); color: var(--earth); }
+    .cta-row { display: flex; gap: 1rem; align-items: center; }
+    .btn {
+      padding: 0.8rem 1.8rem; border-radius: 0.5rem;
+      font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.05em; text-decoration: none;
+      cursor: pointer; border: none; transition: all 0.3s;
+    }
+    .btn-rose { background: var(--rose); color: white; }
+    .btn-rose:hover { background: #b8505f; transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--earth); border: 1.5px solid var(--earth-soft); }
+    .btn-ghost:hover { border-color: var(--rose); color: var(--rose); }
+
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 8s ease;
+    }
+    .hero-right:hover img { transform: scale(1.05); }
+    .hero-right-overlay {
+      position: absolute; bottom: 2rem; right: 2rem;
+      background: white; border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    }
+    .hero-right-overlay .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem; color: var(--rose);
+    }
+    .hero-right-overlay .lbl {
+      font-size: 0.75rem; color: var(--earth);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: var(--rose); overflow: hidden;
+      padding: 1rem 0; white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex; gap: 3rem;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-track span {
+      font-size: 0.8rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: white;
+      font-weight: 500;
+    }
+    .marquee-track span::before { content: '✦'; margin-right: 1.5rem; opacity: 0.6; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ABOUT */
+    .about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .about-img { position: relative; overflow: hidden; }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+    .about-img-badge {
+      position: absolute; top: 2rem; left: 2rem;
+      background: var(--sage); color: white;
+      padding: 0.75rem 1.25rem; border-radius: 0.75rem;
+      font-size: 0.8rem; font-weight: 500;
+    }
+    .about-content {
+      background: var(--sage-pale);
+      padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-content .eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--sage);
+      margin-bottom: 1rem;
+    }
+    .about-content h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: var(--ink); margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    .about-content p {
+      font-size: 0.95rem; line-height: 1.9;
+      color: #4a3728; margin-bottom: 1rem;
+    }
+    .skill-bars { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .skill-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.8rem; color: var(--earth);
+      margin-bottom: 0.4rem;
+    }
+    .skill-bar-track {
+      height: 6px; background: var(--sage-soft);
+      border-radius: 999px; overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; border-radius: 999px;
+      background: var(--sage);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 1s ease 0.3s;
+    }
+    .skill-bar-fill.animated { transform: scaleX(1); }
+
+    /* PORTFOLIO GRID */
+    .portfolio { padding: 6rem 4rem; background: white; }
+    .portfolio-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 3rem;
+    }
+    .portfolio-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--ink);
+    }
+    .portfolio-header p { font-size: 0.9rem; color: var(--earth); max-width: 300px; text-align: right; }
+    .portfolio-masonry {
+      columns: 3; column-gap: 1.5rem;
+    }
+    .portfolio-item {
+      break-inside: avoid; margin-bottom: 1.5rem;
+      border-radius: 1rem; overflow: hidden;
+      position: relative; cursor: pointer;
+    }
+    .portfolio-item img {
+      width: 100%; display: block;
+      transition: transform 0.5s;
+    }
+    .portfolio-item:hover img { transform: scale(1.05); }
+    .portfolio-item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(30,20,16,0.8) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; align-items: flex-end;
+      padding: 1.5rem;
+    }
+    .portfolio-item:hover .portfolio-item-overlay { opacity: 1; }
+    .portfolio-item-overlay h3 {
+      font-family: 'DM Serif Display', serif;
+      color: white; font-size: 1.1rem;
+    }
+    .portfolio-item-overlay p {
+      color: rgba(255,255,255,0.7); font-size: 0.8rem; margin-top: 0.25rem;
+    }
+
+    /* SERVICES */
+    .services {
+      padding: 6rem 4rem;
+      background: var(--earth-pale);
+    }
+    .services h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--ink); text-align: center;
+      margin-bottom: 3rem;
+    }
+    .services-list { display: flex; flex-direction: column; gap: 1px; }
+    .service-row {
+      display: flex; align-items: center;
+      padding: 2rem 0; border-bottom: 1px solid var(--earth-soft);
+      gap: 2rem; cursor: pointer;
+      transition: padding-left 0.3s;
+    }
+    .service-row:hover { padding-left: 1rem; }
+    .service-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; color: var(--rose-soft);
+      min-width: 60px;
+    }
+    .service-row h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem; color: var(--ink);
+      flex: 1;
+    }
+    .service-row p { font-size: 0.85rem; color: var(--earth); max-width: 400px; line-height: 1.7; }
+    .service-arrow { font-size: 1.5rem; color: var(--rose); opacity: 0; transition: opacity 0.3s; }
+    .service-row:hover .service-arrow { opacity: 1; }
+
+    /* CONTACT */
+    .contact {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 60vh;
+    }
+    .contact-left {
+      background: var(--ink); padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contact-left .eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--rose-soft);
+      margin-bottom: 1rem;
+    }
+    .contact-left h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3vw, 3rem);
+      color: white; margin-bottom: 1.5rem;
+    }
+    .contact-left p { color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 2.5rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      color: white; text-decoration: none;
+      font-size: 0.9rem; padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.75rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .contact-link:hover { border-color: var(--rose); background: rgba(212,104,122,0.1); }
+    .contact-link-icon { font-size: 1.2rem; }
+    .contact-right {
+      background: var(--rose-pale); padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contact-right h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem; color: var(--ink);
+      margin-bottom: 2rem;
+    }
+    .form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form input, .form textarea {
+      padding: 0.9rem 1.2rem;
+      border: 1.5px solid var(--rose-soft);
+      border-radius: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; background: white;
+      outline: none; transition: border-color 0.3s;
+    }
+    .form input:focus, .form textarea:focus { border-color: var(--rose); }
+    .form textarea { min-height: 120px; resize: vertical; }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.4);
+      padding: 1.5rem 4rem; font-size: 0.8rem;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-left: 0;
+    }
+
+    /* ANIMATIONS */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s, transform 0.6s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1024px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .hero, .about, .contact { grid-template-columns: 1fr; }
+      .hero { height: auto; }
+      .hero-left { padding: 6rem 2rem 3rem; }
+      .hero-right { height: 50vw; }
+      .about-img { height: 50vw; }
+      .about-content { padding: 3rem 2rem; }
+      .portfolio { padding: 4rem 2rem; }
+      .portfolio-masonry { columns: 2; }
+      .services { padding: 4rem 2rem; }
+      .contact-left, .contact-right { padding: 3rem 2rem; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .portfolio-masonry { columns: 1; }
+      .portfolio-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .portfolio-header p { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">LluviaLora</div>
+    <div class="sidebar-sub">Marketing & Creative</div>
+    <nav class="sidebar-nav">
+      <a href="#hero" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#portfolio">Work</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="sidebar-contact">
+      <a href="mailto:lluviajerry@hotmail.com">lluviajerry@hotmail.com</a><br/>
+      +61 426 895 020
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Marketing / Ecommerce / Social Media</div>
+        <h1>Creative<br/>Marketing<br/>Portfolio</h1>
+        <p>Five years of experience crafting compelling campaigns, social content, and brand stories that connect with audiences.</p>
+        <div class="pill-group">
+          <span class="pill pill-rose">Social Media</span>
+          <span class="pill pill-sage">Video Editing</span>
+          <span class="pill pill-earth">Ecommerce</span>
+          <span class="pill pill-rose">Adobe Suite</span>
+          <span class="pill pill-sage">Photography</span>
+        </div>
+        <div class="cta-row">
+          <a href="#portfolio" class="btn btn-rose">See My Work</a>
+          <a href="#contact" class="btn btn-ghost">Let's Talk</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img src="https://lluvialoraportfolio.my.canva.site/_assets/media/7f5cad41269d43138d4dbc5a0d98d802.jpg" alt="Lluvia Lora" />
+        <div class="hero-right-overlay">
+          <div>
+            <div class="num">5+</div>
+            <div class="lbl">Years Experience</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span>Social Media</span><span>Video Editing</span><span>Ecommerce</span>
+        <span>Photography</span><span>Adobe Suite</span><span>Brand Strategy</span>
+        <span>Content Creation</span><span>Data Analysis</span>
+        <span>Social Media</span><span>Video Editing</span><span>Ecommerce</span>
+        <span>Photography</span><span>Adobe Suite</span><span>Brand Strategy</span>
+        <span>Content Creation</span><span>Data Analysis</span>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="about-img">
+        <img src="https://lluvialoraportfolio.my.canva.site/_assets/media/8aee21982d995a804883c63f7c5de14d.jpg" alt="About" />
+        <div class="about-img-badge">Marketing & Social Media Assistant</div>
+      </div>
+      <div class="about-content reveal">
+        <div class="eyebrow">About Me</div>
+        <h2>Lluvia Lora</h2>
+        <p>I have five years experience in marketing & ecommerce. The majority of my professional life has been in either retail or educational marketing roles.</p>
+        <p>I have a passion for creative work including social media design, photography and videography. I also have a keen eye for detail making my work on reports and data analysing especially accurate.</p>
+        <div class="skill-bars">
+          <div>
+            <div class="skill-bar-label"><span>Social Media Strategy</span><span>95%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="skill-bar-label"><span>Video Production</span><span>88%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div>
+          </div>
+          <div>
+            <div class="skill-bar-label"><span>Adobe Creative Suite</span><span>90%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+          </div>
+          <div>
+            <div class="skill-bar-label"><span>Ecommerce Marketing</span><span>85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="portfolio" id="portfolio">
+      <div class="portfolio-header reveal">
+        <h2>Selected Work</h2>
+        <p>A curated selection of projects spanning social media, video, and print design.</p>
+      </div>
+      <div class="portfolio-masonry">
+        <div class="portfolio-item reveal">
+          <img src="https://lluvialoraportfolio.my.canva.site/_assets/media/d4ae37b676b8d23a0bb223f41b9e7fa0.jpg" alt="Social Assets" />
+          <div class="portfolio-item-overlay">
+            <div><h3>Social Assets</h3><p>Canva · Adobe Creative</p></div>
+          </div>
+        </div>
+        <div class="portfolio-item reveal">
+          <img src="https://lluvialoraportfolio.my.canva.site/_assets/media/96838e5fd8b2061a2142573111ef21b7.png" alt="Video" />
+          <div class="portfolio-item-overlay">
+            <div><h3>Video Editing</h3><p>Premiere Pro · Final Cut</p></div>
+          </div>
+        </div>
+        <div class="portfolio-item reveal">
+          <img src="https://lluvialoraportfolio.my.canva.site/_assets/media/5ebd9f72050ad6de3dda3f015306df7f.jpg" alt="Reels" />
+          <div class="portfolio-item-overlay">
+            <div><h3>Reels & TikToks</h3><p>Instagram · TikTok</p></div>
+          </div>
+        </div>
+        <div class="portfolio-item reveal">
+          <img src="https://lluvialoraportfolio.my.canva.site/_assets/media/a3b0ffa9c8a93851167e174b6e6c4f12.png" alt="Bulletin" />
+          <div class="portfolio-item-overlay">
+            <div><h3>Bulletin Design</h3><p>InDesign · Illustrator</p></div>
+          </div>
+        </div>
+        <div class="portfolio-item reveal">
+          <img src="https://lluvialoraportfolio.my.canva.site/_assets/video/f8b6316ee99e03cf4be08254c36811c2.jpg" alt="Web Design" />
+          <div class="portfolio-item-overlay">
+            <div><h3>Web Design</h3><p>UI/UX · Branding</p></div>
+          </div>
+        </div>
+        <div class="portfolio-item reveal">
+          <img src="https://lluvialoraportfolio.my.canva.site/_assets/video/77b7f80579d46ba59a7073bf31475da4.jpg" alt="Blog" />
+          <div class="portfolio-item-overlay">
+            <div><h3>Blog & Leaflets</h3><p>Copywriting · Print</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <h2>What I Offer</h2>
+      <div class="services-list">
+        <div class="service-row reveal">
+          <div class="service-num">01</div>
+          <h3>Social Media Management</h3>
+          <p>Strategy, content creation and community management across Instagram, TikTok and more.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-row reveal">
+          <div class="service-num">02</div>
+          <h3>Video Production & Editing</h3>
+          <p>Reels, TikToks and long-form video using Premiere Pro and Final Cut Pro.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-row reveal">
+          <div class="service-num">03</div>
+          <h3>Ecommerce Marketing</h3>
+          <p>Product listings, campaign management and conversion-focused marketing strategies.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-row reveal">
+          <div class="service-num">04</div>
+          <h3>Graphic Design & Print</h3>
+          <p>Brand assets, leaflets, bulletins and digital graphics using Adobe Creative Suite.</p>
+          <div class="service-arrow">→</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="contact-left">
+        <div class="eyebrow">Get In Touch</div>
+        <h2>Let's Work Together</h2>
+        <p>Ready to bring your brand to life? I'd love to hear about your project and explore how we can collaborate.</p>
+        <div class="contact-links">
+          <a href="mailto:lluviajerry@hotmail.com" class="contact-link">
+            <span class="contact-link-icon">✉️</span>
+            lluviajerry@hotmail.com
+          </a>
+          <a href="tel:+61426895020" class="contact-link">
+            <span class="contact-link-icon">📞</span>
+            +61 426 895 020
+          </a>
+        </div>
+      </div>
+      <div class="contact-right">
+        <h3>Send a Message</h3>
+        <form class="form">
+          <input type="text" placeholder="Your name" />
+          <input type="email" placeholder="your@email.com" />
+          <input type="text" placeholder="Subject" />
+          <textarea placeholder="Tell me about your project..."></textarea>
+          <button type="submit" class="btn btn-rose" style="align-self:flex-start">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 LluviaLora</div>
+      <div>Marketing / Ecommerce / Social Media</div>
+    </footer>
+  </main>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // animate skill bars
+          e.target.querySelectorAll('.skill-bar-fill').forEach(b => b.classList.add('animated'));
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Sidebar active link
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.sidebar-nav a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+      links.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+      });
+    });
+  </script>
+</body>
+</html>
